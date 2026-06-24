@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cosmiCat — Thumbnails & Video Editor</title>
+  <meta name="description" content="Portafolio de diseño de miniaturas y edición de video." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ══════════════════════════════════════
+       TOKENS
+    ══════════════════════════════════════ */
+    :root {
+      --bg:        #080810;
+      --surface:   #0f0f1a;
+      --surface2:  #16162a;
+      --border:    #2a2a40;
+      --purple:    #6C3FC5;
+      --purple-hi: #8B5CF6;
+      --purple-lo: #3b2070;
+      --text:      #F0EEF8;
+      --muted:     #7a7890;
+      --radius:    10px;
+      --ff: 'Montserrat', sans-serif;
+    }
+
+    /* ══════════════════════════════════════
+       BASE
+    ══════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--ff);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ══════════════════════════════════════
+       NAV
+    ══════════════════════════════════════ */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(8, 8, 16, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-logo {
+      font-weight: 900;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span {
+      display: inline-block;
+      background: var(--purple);
+      color: #fff;
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      text-align: center;
+      line-height: 28px;
+      font-size: 14px;
+      margin-right: 8px;
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .nav-links a {
+      color: var(--muted);
+      transition: color 0.2s;
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1.5px;
+      background: var(--purple-hi);
+      transition: width 0.25s ease;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      font-size: 13px;
+      font-weight: 700;
+      background: var(--purple);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover {
+      background: var(--purple-hi);
+      transform: translateY(-1px);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+    }
+    .mobile-menu a {
+      padding: 0.7rem 0;
+      font-size: 15px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    /* ══════════════════════════════════════
+       HERO
+    ══════════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(108,63,197,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      padding: 4rem 0;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple-hi);
+      margin-bottom: 1.5rem;
+    }
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--purple-hi);
+    }
+
+    .hero-h1 {
+      font-size: clamp(2.6rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-h1 .accent {
+      color: transparent;
+      background: linear-gradient(135deg, var(--purple-hi), #c084fc);
+      -webkit-background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      background: var(--purple);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      background: var(--purple-hi);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(108,63,197,0.4);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      background: transparent;
+      color: var(--text);
+      padding: 13px 28px;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--purple-hi);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .hstat-num {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--purple-hi);
+    }
+    .hstat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ══════════════════════════════════════
+       SECTIONS SHARED
+    ══════════════════════════════════════ */
+    .section {
+      padding: 6rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--purple-hi);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.6rem;
+    }
+    .section-sub {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 3rem;
+    }
+
+    /* ══════════════════════════════════════
+       MEJORES TRABAJOS (Videos clickeables)
+    ══════════════════════════════════════ */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .work-card {
+      display: block; /* Asegura que el enlace se comporte como caja */
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .work-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(108,63,197,0.2);
+    }
+
+    .work-thumb {
+      aspect-ratio: 16/9;
+      position: relative;
+      overflow: hidden;
+      background: var(--surface2);
+    }
+    .work-thumb img { transition: transform 0.4s ease; width: 100%; height: 100%; object-fit: cover; }
+    .work-card:hover .work-thumb img { transform: scale(1.04); }
+
+    .work-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(6,6,12,0.85) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.25s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+    }
+    .work-card:hover .work-overlay { opacity: 1; }
+    .overlay-tag {
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--purple);
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .work-body {
+      padding: 1rem 1.1rem 1.2rem;
+    }
+    .work-type {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--purple-hi);
+      margin-bottom: 4px;
+    }
+    .work-title {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+    .work-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .work-card.featured {
+      grid-column: span 2;
+    }
+    .work-card.featured .work-body {
+      padding: 1.2rem 1.4rem 1.4rem;
+    }
+    .work-card.featured .work-title { font-size: 16px; }
+
+    /* ══════════════════════════════════════
+       CANALES
+    ══════════════════════════════════════ */
+    .channels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .channel-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.3rem 1.4rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .channel-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-2px);
+    }
+
+    .channel-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--purple-lo);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .channel-name {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .channel-meta {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .channel-tag {
+      display: inline-block;
+      margin-top: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--purple-hi);
+      background: rgba(108,63,197,0.12);
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+
+    /* ══════════════════════════════════════
+       MINIATURAS (galería lightbox)
+    ══════════════════════════════════════ */
+    .thumbs-filter {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .filter-btn {
+      font-family: var(--ff);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 18px;
+      border-radius: 99px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: #fff;
+    }
+
+    .thumbs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .thumb-item {
+      aspect-ratio: 16/9;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .thumb-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      border-color: var(--purple);
+    }
+
+    /* lightbox */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    #lightbox-close {
+      position: absolute;
+      top: 1.2rem; right: 1.5rem;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    /* ══════════════════════════════════════
+       CONTACTO
+    ══════════════════════════════════════ */
+    #contacto {
+      border-top: 1px solid var(--border);
+      padding: 6rem 0;
+    }
+    .contact-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-left h2 {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .contact-left h2 .accent {
+      color: transparent;
+      background: linear-gradient(135deg, var(--purple-hi), #c084fc);
+      -webkit-background-clip: text;
+    }
+    .contact-left p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .contact-link:hover {
+      border-color: var(--purple);
+      color: var(--text);
+      transform: translateX(4px);
+    }
+
+    /* Formulario */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      font-family: var(--ff);
+      font-size: 14px;
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      padding: 12px 14px;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--purple-hi);
+    }
+    .form-group textarea { height: 100px; }
+
+    .form-submit {
+      width: 100%;
+      font-family: var(--ff);
+      font-size: 14px;
+      font-weight: 700;
+      background: var(--purple);
+      color: #fff;
+      padding: 14px;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .form-submit:hover {
+      background: var(--purple-hi);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(108,63,197,0.4);
+    }
+
+    #form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      color: var(--purple-hi);
+      font-weight: 700;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.8rem 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .footer-logo {
+      font-weight: 900;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    /* Animation reveal class */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .works-grid { grid-template-columns: 1fr 1fr; }
+      .work-card.featured { grid-column: span 1; }
+      .contact-box { grid-template-columns: 1fr; gap: 2.5rem; padding: 2rem; }
+    }
+    @media (max-width: 640px) {
+      .works-grid { grid-template-columns: 1fr; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .hero-stats { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="lightbox">
+    <button id="lightbox-close">×</button>
+    <img id="lightbox-img" src="" alt="Ampliada" />
+  </div>
+
+  <nav id="nav">
+    <div class="wrap nav-inner">
+      <a href="#" class="nav-logo"><span>CC</span>cosmiCat</a>
+      <ul class="nav-links">
+        <li><a href="#trabajos">Trabajos</a></li>
+        <li><a href="#canales">Canales</a></li>
+        <li><a href="#miniaturas">Miniaturas</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#contacto" class="nav-cta">Trabajemos juntos</a>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#trabajos">Trabajos</a>
+      <a href="#canales">Canales</a>
+      <a href="#miniaturas">Miniaturas</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </nav>
+
+  <section id="hero">
+    <div class="wrap">
+      <div class="hero-inner">
+        <p class="hero-tag">Disponible para proyectos</p>
+        <h1 class="hero-h1">
+          Miniaturas que<br>
+          <span class="accent">generan clics.</span><br>
+          Videos que retienen.
+        </h1>
+        <p class="hero-sub">
+          Diseño miniaturas de alto CTR y edito videos enfocados en retención de audiencia. 
+          Especialista en optimizar el impacto visual de tus contenidos.
+        </p>
+        <div class="hero-btns">
+          <a href="#trabajos" class="btn-primary">Ver mis trabajos →</a>
+          <a href="#contacto" class="btn-ghost">Contáctame</a>
+        </div>
+
+        <div class="hero-stats">
+          <div>
+            <p class="hstat-num">+30</p>
+            <p class="hstat-label">Miniaturas creadas</p>
+          </div>
+          <div>
+            <p class="hstat-num">+100</p>
+            <p class="hstat-label">Videos editados</p>
+          </div>
+          <div>
+            <p class="hstat-num">3</p>
+            <p class="hstat-label">Canales asociados</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="trabajos">
+    <div class="wrap">
+      <p class="section-label">Portafolio</p>
+      <h2 class="section-title">Mejores trabajos</h2>
+      <p class="section-sub">Una selección de proyectos. Haz clic en cualquiera para abrir el video.</p>
+
+      <div class="works-grid">
+
+        <a href="https://youtu.be/TeBt1nUkTfQ?si=0bMqrcvgyYrFKltY" target="_blank" rel="noopener" class="work-card featured reveal">
+          <div class="work-thumb">
+            <img src="C:\Users\firef\Downloads\HLNQwImWkAA2GK5.jpg" alt="Trabajo Destacado">
+            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+          </div>
+          <div class="work-body">
+            <p class="work-type">Edición completa / miniatura</p>
+            <h3 class="work-title">Mamadores en el anime</h3>
+            <p class="work-desc">animaciones senillas, efetos de sonido a corde lo que pasa, miniatura llamativa.</p>
+          </div>
+        </a>
+
+        <a href="https://youtube.com/shorts/1cIj5oWDgG4?si=kYgMwJegeupu3CSI" target="_blank" rel="noopener" class="work-card reveal">
+          <div class="work-thumb">
+            <img src="C:\Users\firef\Downloads\WhatsApp Image 2026-06-23 at 5.42.23 PM.jpeg" alt="Proyecto 2">
+            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+          </div>
+          <div class="work-body">
+            <p class="work-type">Short / Reel</p>
+            <h3 class="work-title">Un clasico de internet</h3>
+            <p class="work-desc">Edicion vertical completa con cortes dinamicos y narracion atrapante.</p>
+          </div>
+        </a>
+
+        <a href="https://youtu.be/vCpUa6X7TRw?si=jTB06iqghtg9gRO_" target="_blank" rel="noopener" class="work-card reveal">
+          <div class="work-thumb">
+            <img src="C:\Users\firef\Downloads\maxresdefault (2).jpg" alt="Proyecto 3">
+            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+          </div>
+          <div class="work-body">
+            <p class="work-type">video para canal en ingles</p>
+            <h3 class="work-title">
+Season 26 CHANGES EVERYTHING – League of Legends Explained</h3>
+            <p class="work-desc">edicion explicativa y dinamica.</p>
+          </div>
+        </a>
+
+        <a href="https://youtu.be/5QWwOwpC6YM?si=hGC-ShKwkqOUb9UQ" target="_blank" rel="noopener" class="work-card reveal">
+          <div class="work-thumb">
+            <img src="C:\Users\firef\Downloads\HKaWl8ZXoAAxJXJ.jpg" alt="Proyecto 4">
+            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+          </div>
+          <div class="work-body">
+            <p class="work-type">Miniatura reciente</p>
+            <h3 class="work-title">
+iSpyWithMyLittleEye - EASY DEMON 100% BY VOXYCAT</h3>
+            <p class="work-desc">Diseño estratégico enfocado en aumentar el CTR en canal Nuevo.</p>
+          </div>
+        </a>
+
+        <a href="https://youtu.be/BTUhHWZ8oYM?si=8jaPDkUe40GObC2-" target="_blank" rel="noopener" class="work-card reveal">
+          <div class="work-thumb">
+            <img src="C:\Users\firef\Downloads\4f3aa1a0-9889-4775-a335-0fcbe87cddb6.png" alt="Proyecto 5">
+            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+          </div>
+          <div class="work-body">
+            <p class="work-type">Edición de formato largo</p>
+            <h3 class="work-title">
+La GLORIOSA EVOLUCION del MONSTERVERSE</h3>
+            <p class="work-desc">Narrativa y ritmo cuidados para mantener estables las métricas del canal.</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="canales">
+    <div class="wrap">
+      <p class="section-label">Experiencia</p>
+      <h2 class="section-title">Canales trabajados</h2>
+      <p class="section-sub">Creadores con los que colaboro.</p>
+
+      <div class="channels-grid">
+        <a href="https://www.youtube.com/@uncanaldeanimemas" target="_blank" rel="noopener" class="channel-card reveal">
+          <div class="channel-avatar"><img src="C:\Users\firef\Downloads\channels4_profile.jpg" alt="Logo"></div>
+          <div><p class="channel-name">Un Canal De Anime Mas</p><p class="channel-meta">Anime &amp; Manga</p><span class="channel-tag">Edición / Miniaturas</span></div>
+        </a>
+        <a href="https://www.youtube.com/@cosmicat2" target="_blank" rel="noopener" class="channel-card reveal">
+          <div class="channel-avatar"><img src="C:\Users\firef\Downloads\channels4_profile (1).jpg" alt="Logo"></div>
+          <div><p class="channel-name">cosmiCat 2</p><p class="channel-meta">Contenido Propio</p><span class="channel-tag">Producción Integral</span></div>
+        </a>
+        <a href="https://www.youtube.com/@leagueOfClipper" target="_blank" rel="noopener" class="channel-card reveal">
+          <div class="channel-avatar"><img src="C:\Users\firef\Downloads\channels4_profile (2).jpg" alt="Logo"></div>
+          <div><p class="channel-name">League Of Clipper</p><p class="channel-meta">Gaming &amp; Clips</p><span class="channel-tag">Edición explicativa. </span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="miniaturas">
+    <div class="wrap">
+      <p class="section-label">Galería</p>
+      <h2 class="section-title">Miniaturas</h2>
+      <p class="section-sub">Haz clic en cualquier miniatura para verla ampliada.</p>
+
+      <div class="thumbs-filter">
+        <button class="filter-btn active" data-filter="all">Todas</button>
+        <button class="filter-btn" data-filter="gaming">Gaming</button>
+        <button class="filter-btn" data-filter="anime">Anime</button>
+        <button class="filter-btn" data-filter="entretenimiento">Entretenimiento</button>
+      </div>
+
+      <div class="thumbs-grid">
+        <div class="thumb-item reveal" data-cat="gaming"><img src="C:\Users\firef\Downloads\HKaWl8ZXoAAxJXJ.jpg" alt="Gaming 1"></div>
+        <div class="thumb-item reveal" data-cat="anime"><img src="C:\Users\firef\Downloads\HLNQwImWkAA2GK5.jpg" alt="Anime 1"></div>
+        <div class="thumb-item reveal" data-cat="entretenimiento"><img src="C:\Users\firef\Downloads\jew.png" alt="Entretenimiento 1"></div>
+        <div class="thumb-item reveal" data-cat="gaming"><img src="C:\Users\firef\OneDrive\Imágenes\mini.png" alt="Gaming 2"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="wrap">
+      <div class="contact-box reveal">
+        <div class="contact-left">
+          <h2>¿Tienes un<br><span class="accent">proyecto?</span></h2>
+          <p>Estoy disponible para diseño de miniaturas y edición de video. Escríbeme o háblame directamente por X (Twitter).</p>
+          <div class="contact-links">
+            <a href="https://x.com/alter_cosmic" target="_blank" rel="noopener" class="contact-link">🐦 @alter_cosmic en X</a>
+          </div>
+        </div>
+
+        <div class="contact-right">
+          <form id="contact-form">
+            <div class="form-group"><label>Nombre</label><input type="text" name="nombre" placeholder="Tu nombre" required /></div>
+            <div class="form-group"><label>Email o Red Social</label><input type="text" name="email" placeholder="Para responderte" required /></div>
+            <div class="form-group">
+              <label>Tipo de proyecto</label>
+              <select name="tipo">
+                <option value="">Selecciona...</option>
+                <option>Diseño de miniatura</option>
+                <option>Edición de video</option>
+                <option>Pack de miniaturas</option>
+                <option>Short / Reel</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Cuéntame tu proyecto</label><textarea name="mensaje" placeholder="Canal, nicho, qué necesitas..."></textarea></div>
+            <button type="submit" class="form-submit">Enviar mensaje →</button>
+          </form>
+          <div id="form-success">✓ Mensaje enviado. Te respondo pronto.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span class="footer-logo">cosmiCat</span>
+      <span>Thumbnails &amp; Video Editor · 2026</span>
+    </div>
+  </footer>
+
+  <script>
+    /* Hamburguesa */
+    const ham = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    ham.addEventListener('click', () => { mobileMenu.style.display = mobileMenu.style.display === 'flex' ? 'none' : 'flex'; });
+    
+    /* Scroll Reveal */
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => revealObs.observe(el));
+
+    /* Filtros */
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const thumbItems = document.querySelectorAll('.thumb-item');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        thumbItems.forEach(item => { item.style.display = (filter === 'all' || item.dataset.cat === filter) ? '' : 'none'; });
+      });
+    });
+
+    /* Lightbox Galería */
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    document.querySelectorAll('.thumb-item').forEach(item => {
+      item.addEventListener('click', () => {
+        lbImg.src = item.querySelector('img').src;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    const closeLb = () => { lightbox.classList.remove('open'); document.body.style.overflow = ''; };
+    document.getElementById('lightbox-close').addEventListener('click', closeLb);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLb(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+
+    /* Form Simulado */
+    const form = document.getElementById('contact-form');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      if(form.nombre.value && form.email.value) {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
