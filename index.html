@@ -62,7 +62,6 @@
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
-      transition: border-color 0.3s;
     }
 
     .nav-inner {
@@ -124,7 +123,6 @@
       border: none;
       cursor: pointer;
       transition: background 0.2s, transform 0.15s;
-      font-family: var(--ff);
     }
     .nav-cta:hover {
       background: var(--purple-hi);
@@ -143,16 +141,11 @@
       width: 22px; height: 2px;
       background: var(--text);
       border-radius: 2px;
-      transition: transform 0.25s, opacity 0.25s;
     }
-    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     .mobile-menu {
       display: none;
       flex-direction: column;
-      gap: 0;
       background: var(--surface);
       border-bottom: 1px solid var(--border);
       padding: 1rem 2rem;
@@ -212,11 +205,6 @@
       width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--purple-hi);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.4); }
     }
 
     .hero-h1 {
@@ -230,7 +218,6 @@
       color: transparent;
       background: linear-gradient(135deg, var(--purple-hi), #c084fc);
       -webkit-background-clip: text;
-      background-clip: text;
     }
 
     .hero-sub {
@@ -252,30 +239,24 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-family: var(--ff);
       font-size: 14px;
       font-weight: 700;
       background: var(--purple);
       color: #fff;
       padding: 14px 28px;
       border-radius: var(--radius);
-      border: none;
-      cursor: pointer;
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      text-decoration: none;
     }
     .btn-primary:hover {
       background: var(--purple-hi);
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(108,63,197,0.4);
     }
-    .btn-primary:active { transform: translateY(0); }
 
     .btn-ghost {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-family: var(--ff);
       font-size: 14px;
       font-weight: 700;
       background: transparent;
@@ -283,9 +264,7 @@
       padding: 13px 28px;
       border-radius: var(--radius);
       border: 1.5px solid var(--border);
-      cursor: pointer;
       transition: border-color 0.2s, transform 0.15s;
-      text-decoration: none;
     }
     .btn-ghost:hover {
       border-color: var(--purple-hi);
@@ -332,7 +311,6 @@
       font-size: clamp(1.7rem, 3vw, 2.4rem);
       font-weight: 900;
       letter-spacing: -0.025em;
-      line-height: 1.1;
       margin-bottom: 0.6rem;
     }
     .section-sub {
@@ -343,7 +321,7 @@
     }
 
     /* ══════════════════════════════════════
-       MEJORES TRABAJOS
+       MEJORES TRABAJOS (Videos clickeables)
     ══════════════════════════════════════ */
     .works-grid {
       display: grid;
@@ -352,13 +330,12 @@
     }
 
     .work-card {
+      display: block; /* Asegura que el enlace se comporte como caja */
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
-      cursor: pointer;
       transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-      position: relative;
     }
     .work-card:hover {
       border-color: var(--purple);
@@ -372,23 +349,7 @@
       overflow: hidden;
       background: var(--surface2);
     }
-    .work-thumb .placeholder {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      z-index: 1;
-    }
-    .work-thumb .placeholder .icon { font-size: 28px; }
-    .work-thumb img { position: relative; z-index: 2; transition: transform 0.4s ease; width: 100%; height: 100%; }
+    .work-thumb img { transition: transform 0.4s ease; width: 100%; height: 100%; object-fit: cover; }
     .work-card:hover .work-thumb img { transform: scale(1.04); }
 
     .work-overlay {
@@ -400,7 +361,6 @@
       display: flex;
       align-items: flex-end;
       padding: 1rem;
-      z-index: 3;
     }
     .work-card:hover .work-overlay { opacity: 1; }
     .overlay-tag {
@@ -410,7 +370,6 @@
       color: #fff;
       padding: 3px 10px;
       border-radius: 4px;
-      letter-spacing: 0.06em;
       text-transform: uppercase;
     }
 
@@ -463,7 +422,6 @@
       gap: 1rem;
       align-items: center;
       transition: border-color 0.2s, transform 0.2s;
-      cursor: pointer;
     }
     .channel-card:hover {
       border-color: var(--purple);
@@ -481,7 +439,6 @@
       flex-shrink: 0;
       overflow: hidden;
     }
-    .channel-avatar img { border-radius: 50%; width: 100%; height: 100%; object-fit: cover; }
 
     .channel-name {
       font-size: 14px;
@@ -504,7 +461,7 @@
     }
 
     /* ══════════════════════════════════════
-       MINIATURAS (galería)
+       MINIATURAS (galería lightbox)
     ══════════════════════════════════════ */
     .thumbs-filter {
       display: flex;
@@ -552,25 +509,8 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.5);
       border-color: var(--purple);
     }
-    .thumb-item .placeholder {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      gap: 6px;
-      z-index: 1;
-    }
-    .thumb-item .placeholder .icon { font-size: 24px; }
-    .thumb-item img { position: relative; z-index: 2; width: 100%; height: 100%; }
 
-    /* lightbox simple */
+    /* lightbox */
     #lightbox {
       display: none;
       position: fixed;
@@ -597,10 +537,7 @@
       color: var(--muted);
       font-size: 28px;
       cursor: pointer;
-      font-family: var(--ff);
-      transition: color 0.2s;
     }
-    #lightbox-close:hover { color: var(--text); }
 
     /* ══════════════════════════════════════
        CONTACTO
@@ -621,19 +558,10 @@
       position: relative;
       overflow: hidden;
     }
-    .contact-box::before {
-      content: '';
-      position: absolute;
-      bottom: -80px; right: -80px;
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(108,63,197,0.15) 0%, transparent 70%);
-      pointer-events: none;
-    }
 
     .contact-left h2 {
       font-size: clamp(1.8rem, 3vw, 2.6rem);
       font-weight: 900;
-      letter-spacing: -0.03em;
       line-height: 1.1;
       margin-bottom: 1rem;
     }
@@ -641,7 +569,6 @@
       color: transparent;
       background: linear-gradient(135deg, var(--purple-hi), #c084fc);
       -webkit-background-clip: text;
-      background-clip: text;
     }
     .contact-left p {
       font-size: 15px;
@@ -672,11 +599,6 @@
       color: var(--text);
       transform: translateX(4px);
     }
-    .contact-link .cl-icon {
-      font-size: 18px;
-      width: 32px;
-      text-align: center;
-    }
 
     /* Formulario */
     .form-group {
@@ -688,7 +610,6 @@
     .form-group label {
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--muted);
     }
@@ -703,15 +624,12 @@
       color: var(--text);
       padding: 12px 14px;
       outline: none;
-      transition: border-color 0.2s;
-      resize: none;
     }
     .form-group input:focus,
     .form-group textarea:focus,
     .form-group select:focus {
       border-color: var(--purple-hi);
     }
-    .form-group select option { background: var(--surface2); }
     .form-group textarea { height: 100px; }
 
     .form-submit {
@@ -725,7 +643,6 @@
       border-radius: var(--radius);
       border: none;
       cursor: pointer;
-      margin-top: 4px;
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
     .form-submit:hover {
@@ -733,7 +650,6 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(108,63,197,0.4);
     }
-    .form-submit:active { transform: translateY(0); }
 
     #form-success {
       display: none;
@@ -741,7 +657,6 @@
       padding: 2rem;
       color: var(--purple-hi);
       font-weight: 700;
-      font-size: 15px;
     }
 
     /* ══════════════════════════════════════
@@ -764,22 +679,11 @@
       color: var(--text);
     }
 
-    /* ══════════════════════════════════════
-       SCROLL REVEAL
-    ══════════════════════════════════════ */
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.55s ease, transform 0.55s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    /* Animation reveal class */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ══════════════════════════════════════
-       RESPONSIVE
-    ══════════════════════════════════════ */
+    /* RESPONSIVE */
     @media (max-width: 900px) {
       .works-grid { grid-template-columns: 1fr 1fr; }
       .work-card.featured { grid-column: span 1; }
@@ -787,20 +691,17 @@
     }
     @media (max-width: 640px) {
       .works-grid { grid-template-columns: 1fr; }
-      .work-card.featured { grid-column: span 1; }
       .nav-links, .nav-cta { display: none; }
       .hamburger { display: flex; }
-      .mobile-menu.open { display: flex; }
       .hero-stats { gap: 1.5rem; }
-      .channels-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Vista ampliada">
-    <button id="lightbox-close" aria-label="Cerrar">×</button>
-    <img id="lightbox-img" src="" alt="Miniatura ampliada" />
+  <div id="lightbox">
+    <button id="lightbox-close">×</button>
+    <img id="lightbox-img" src="" alt="Ampliada" />
   </div>
 
   <nav id="nav">
@@ -813,7 +714,7 @@
         <li><a href="#contacto">Contacto</a></li>
       </ul>
       <a href="#contacto" class="nav-cta">Trabajemos juntos</a>
-      <div class="hamburger" id="hamburger" aria-label="Menú" role="button" tabindex="0">
+      <div class="hamburger" id="hamburger">
         <span></span><span></span><span></span>
       </div>
     </div>
@@ -842,6 +743,7 @@
           <a href="#trabajos" class="btn-primary">Ver mis trabajos →</a>
           <a href="#contacto" class="btn-ghost">Contáctame</a>
         </div>
+
         <div class="hero-stats">
           <div>
             <p class="hstat-num">+80</p>
@@ -856,6 +758,7 @@
             <p class="hstat-label">Canales asociados</p>
           </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -864,77 +767,71 @@
     <div class="wrap">
       <p class="section-label">Portafolio</p>
       <h2 class="section-title">Mejores trabajos</h2>
-      <p class="section-sub">Una selección de los proyectos de los que más me enorgullezco.</p>
+      <p class="section-sub">Una selección de proyectos. Haz clic en cualquiera para abrir el video.</p>
 
       <div class="works-grid">
 
-        <div class="work-card featured reveal">
+        <a href="https://youtu.be/TeBt1nUkTfQ?si=0bMqrcvgyYrFKltY" target="_blank" rel="noopener" class="work-card featured reveal">
           <div class="work-thumb">
-            <img src="tu-imagen-lol.jpg" alt="Season 26 CHANGES EVERYTHING">
-            <div class="placeholder">
-              <span class="icon">🎬</span>
-              Miniatura LoL (16:9)
-            </div>
-            <div class="work-overlay"><span class="overlay-tag">Destacado</span></div>
+            <img src="HLNQwImWkAA2GK5.jpg" alt="Trabajo Destacado">
+            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
           </div>
           <div class="work-body">
-            <p class="work-type">Video para canal en inglés</p>
-            <h3 class="work-title">Season 26 CHANGES EVERYTHING – League of Legends Explained</h3>
-            <p class="work-desc">Edición explicativa y dinámica.</p>
+            <p class="work-type">Edición completa / miniatura</p>
+            <h3 class="work-title">Mamadores en el anime</h3>
+            <p class="work-desc">animaciones senillas, efetos de sonido a corde lo que pasa, miniatura llamativa.</p>
           </div>
-        </div>
+        </a>
 
-        <div class="work-card reveal">
+        <a href="https://youtube.com/shorts/1cIj5oWDgG4?si=kYgMwJegeupu3CSI" target="_blank" rel="noopener" class="work-card reveal">
           <div class="work-thumb">
-            <img src="tu-imagen-voxycat.jpg" alt="iSpyWithMyLittleEye Thumbnail">
-            <div class="placeholder"><span class="icon">🖼️</span>Miniatura Geometry Dash</div>
-            <div class="work-overlay"><span class="overlay-tag">Thumbnail</span></div>
+            <img src="WhatsApp Image 2026-06-23 at 5.42.23 PM.jpeg" alt="Proyecto 2">
+            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+          </div>
+          <div class="work-body">
+            <p class="work-type">Short / Reel</p>
+            <h3 class="work-title">Un clasico de internet</h3>
+            <p class="work-desc">Edicion vertical completa con cortes dinamicos y narracion atrapante.</p>
+          </div>
+        </a>
+
+        <a href="https://youtu.be/vCpUa6X7TRw?si=jTB06iqghtg9gRO_" target="_blank" rel="noopener" class="work-card reveal">
+          <div class="work-thumb">
+            <img src="maxresdefault (2).jpg" alt="Proyecto 3">
+            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+          </div>
+          <div class="work-body">
+            <p class="work-type">video para canal en ingles</p>
+            <h3 class="work-title">
+Season 26 CHANGES EVERYTHING – League of Legends Explained</h3>
+            <p class="work-desc">edicion explicativa y dinamica.</p>
+          </div>
+        </a>
+
+        <a href="https://youtu.be/5QWwOwpC6YM?si=hGC-ShKwkqOUb9UQ" target="_blank" rel="noopener" class="work-card reveal">
+          <div class="work-thumb">
+            <img src="HKaWl8ZXoAAxJXJ.jpg" alt="Proyecto 4">
+            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
           </div>
           <div class="work-body">
             <p class="work-type">Miniatura reciente</p>
-            <h3 class="work-title">iSpyWithMyLittleEye - EASY DEMON 100% BY VOXYCAT</h3>
-            <p class="work-desc">Diseño estratégico enfocado en aumentar el CTR en canal nuevo.</p>
+            <h3 class="work-title">
+iSpyWithMyLittleEye - EASY DEMON 100% BY VOXYCAT</h3>
+            <p class="work-desc">Diseño estratégico enfocado en aumentar el CTR en canal Nuevo.</p>
           </div>
-        </div>
+        </a>
 
-        <div class="work-card reveal">
+        <a href="TU_LINK_DE_YOUTUBE_AQUÍ" target="_blank" rel="noopener" class="work-card reveal">
           <div class="work-thumb">
-            <img src="tu-imagen-monsterverse.jpg" alt="Monsterverse Video">
-            <div class="placeholder"><span class="icon">✂️</span>Miniatura Monsterverse</div>
-            <div class="work-overlay"><span class="overlay-tag">Edición</span></div>
+            <img src="trabajo5.jpg" alt="Proyecto 5">
+            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
           </div>
           <div class="work-body">
             <p class="work-type">Edición de formato largo</p>
-            <h3 class="work-title">La GLORIOSA EVOLUCION del MONSTERVERSE</h3>
+            <h3 class="work-title">Título del Video 5</h3>
             <p class="work-desc">Narrativa y ritmo cuidados para mantener estables las métricas del canal.</p>
           </div>
-        </div>
-
-        <div class="work-card reveal">
-          <div class="work-thumb">
-            <img src="tu-imagen-pack.jpg" alt="Pack de miniaturas">
-            <div class="placeholder"><span class="icon">🖼️</span>Tu imagen (16:9)</div>
-            <div class="work-overlay"><span class="overlay-tag">Thumbnail</span></div>
-          </div>
-          <div class="work-body">
-            <p class="work-type">Thumbnail</p>
-            <h3 class="work-title">Serie de miniaturas — pack</h3>
-            <p class="work-desc">Identidad visual coherente para toda una serie de videos.</p>
-          </div>
-        </div>
-
-        <div class="work-card reveal">
-          <div class="work-thumb">
-            <img src="tu-imagen-larga.jpg" alt="Edición larga">
-            <div class="placeholder"><span class="icon">🎞️</span>Tu imagen (16:9)</div>
-            <div class="work-overlay"><span class="overlay-tag">Edición</span></div>
-          </div>
-          <div class="work-body">
-            <p class="work-type">Edición larga</p>
-            <h3 class="work-title">Video largo — nombre del canal</h3>
-            <p class="work-desc">Edición de video largo con intro, gráficos y corrección de color.</p>
-          </div>
-        </div>
+        </a>
 
       </div>
     </div>
@@ -944,37 +841,21 @@
     <div class="wrap">
       <p class="section-label">Experiencia</p>
       <h2 class="section-title">Canales trabajados</h2>
-      <p class="section-sub">Creadores y canales con quienes he colaborado.</p>
+      <p class="section-sub">Creadores con los que colaboro.</p>
 
       <div class="channels-grid">
-
         <a href="https://www.youtube.com/@uncanaldeanimemas" target="_blank" rel="noopener" class="channel-card reveal">
-          <div class="channel-avatar">⛩️</div>
-          <div>
-            <p class="channel-name">Un Canal De Anime Mas</p>
-            <p class="channel-meta">Anime &amp; Manga</p>
-            <span class="channel-tag">Edición / Miniaturas</span>
-          </div>
+          <div class="channel-avatar"><img src="channels4_profile.jpg" alt="Logo"></div>
+          <div><p class="channel-name">Un Canal De Anime Mas</p><p class="channel-meta">Anime &amp; Manga</p><span class="channel-tag">Edición / Miniaturas</span></div>
         </a>
-
         <a href="https://www.youtube.com/@cosmicat2" target="_blank" rel="noopener" class="channel-card reveal">
-          <div class="channel-avatar">🐱</div>
-          <div>
-            <p class="channel-name">cosmiCat 2</p>
-            <p class="channel-meta">Contenido Propio</p>
-            <span class="channel-tag">Producción Integral</span>
-          </div>
+          <div class="channel-avatar"><img src="channels4_profile (1).jpg" alt="Logo"></div>
+          <div><p class="channel-name">cosmiCat 2</p><p class="channel-meta">Contenido Propio</p><span class="channel-tag">Producción Integral</span></div>
         </a>
-
         <a href="https://www.youtube.com/@leagueOfClipper" target="_blank" rel="noopener" class="channel-card reveal">
-          <div class="channel-avatar">🎮</div>
-          <div>
-            <p class="channel-name">League Of Clipper</p>
-            <p class="channel-meta">Gaming &amp; Clips</p>
-            <span class="channel-tag">Edición de Clips / Shorts</span>
-          </div>
+          <div class="channel-avatar"><img src="channels4_profile (2).jpg" alt="Logo"></div>
+          <div><p class="channel-name">League Of Clipper</p><p class="channel-meta">Gaming &amp; Clips</p><span class="channel-tag">Edición explicativa. </span></div>
         </a>
-
       </div>
     </div>
   </section>
@@ -992,28 +873,11 @@
         <button class="filter-btn" data-filter="entretenimiento">Entretenimiento</button>
       </div>
 
-      <div class="thumbs-grid" id="thumbs-grid">
-
-        <div class="thumb-item reveal" data-cat="gaming">
-          <img src="tu-imagen-lol.jpg" alt="Miniatura LoL">
-          <div class="placeholder"><span class="icon">🖼️</span>Miniatura Gaming 1</div>
-        </div>
-
-        <div class="thumb-item reveal" data-cat="anime">
-          <img src="tu-imagen-anime.jpg" alt="Miniatura Anime">
-          <div class="placeholder"><span class="icon">🖼️</span>Miniatura Anime 1</div>
-        </div>
-
-        <div class="thumb-item reveal" data-cat="entretenimiento">
-          <img src="tu-imagen-extra.jpg" alt="Miniatura Extra">
-          <div class="placeholder"><span class="icon">🖼️</span>Miniatura Extra 1</div>
-        </div>
-
-        <div class="thumb-item reveal" data-cat="gaming">
-          <img src="tu-imagen-voxycat.jpg" alt="Miniatura Geometry Dash">
-          <div class="placeholder"><span class="icon">🖼️</span>Miniatura Gaming 2</div>
-        </div>
-
+      <div class="thumbs-grid">
+        <div class="thumb-item reveal" data-cat="gaming"><img src="HKaWl8ZXoAAxJXJ.jpg" alt="Gaming 1"></div>
+        <div class="thumb-item reveal" data-cat="anime"><img src="HLNQwImWkAA2GK5.jpg" alt="Anime 1"></div>
+        <div class="thumb-item reveal" data-cat="entretenimiento"><img src="jew.png" alt="Entretenimiento 1"></div>
+        <div class="thumb-item reveal" data-cat="gaming"><img src="mini.png" alt="Gaming 2"></div>
       </div>
     </div>
   </section>
@@ -1021,51 +885,33 @@
   <section id="contacto">
     <div class="wrap">
       <div class="contact-box reveal">
-
         <div class="contact-left">
           <h2>¿Tienes un<br><span class="accent">proyecto?</span></h2>
-          <p>Estoy disponible para diseño de miniaturas y edición de video. Escríbeme y con gusto platicamos en X (Twitter) o mediante el formulario.</p>
-
+          <p>Estoy disponible para diseño de miniaturas y edición de video. Escríbeme o háblame directamente por X (Twitter).</p>
           <div class="contact-links">
-            <a href="https://x.com/alter_cosmic" target="_blank" rel="noopener" class="contact-link">
-              <span class="cl-icon">🐦</span>
-              @alter_cosmic en X / Twitter
-            </a>
+            <a href="https://x.com/alter_cosmic" target="_blank" rel="noopener" class="contact-link">🐦 @alter_cosmic en X</a>
           </div>
         </div>
 
         <div class="contact-right">
-          <form id="contact-form" novalidate>
+          <form id="contact-form">
+            <div class="form-group"><label>Nombre</label><input type="text" name="nombre" placeholder="Tu nombre" required /></div>
+            <div class="form-group"><label>Email o Red Social</label><input type="text" name="email" placeholder="Para responderte" required /></div>
             <div class="form-group">
-              <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
-            </div>
-            <div class="form-group">
-              <label for="email">Email o Red Social</label>
-              <input type="text" id="email" name="email" placeholder="Para responderte" required />
-            </div>
-            <div class="form-group">
-              <label for="tipo">Tipo de proyecto</label>
-              <select id="tipo" name="tipo">
+              <label>Tipo de proyecto</label>
+              <select name="tipo">
                 <option value="">Selecciona...</option>
                 <option>Diseño de miniatura</option>
                 <option>Edición de video</option>
                 <option>Pack de miniaturas</option>
                 <option>Short / Reel</option>
-                <option>Otro</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="mensaje">Cuéntame tu proyecto</label>
-              <textarea id="mensaje" name="mensaje" placeholder="Canal, nicho, qué necesitas..."></textarea>
-            </div>
+            <div class="form-group"><label>Cuéntame tu proyecto</label><textarea name="mensaje" placeholder="Canal, nicho, qué necesitas..."></textarea></div>
             <button type="submit" class="form-submit">Enviar mensaje →</button>
           </form>
-          <div id="form-success">
-            ✓ Mensaje enviado. Te respondo pronto.
-          </div>
+          <div id="form-success">✓ Mensaje enviado. Te respondo pronto.</div>
         </div>
-
       </div>
     </div>
   </section>
@@ -1078,89 +924,56 @@
   </footer>
 
   <script>
-    /* ── Hamburger menu ── */
+    /* Hamburguesa */
     const ham = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
-    ham.addEventListener('click', () => {
-      ham.classList.toggle('open');
-      mobileMenu.classList.toggle('open');
-    });
-    mobileMenu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        ham.classList.remove('open');
-        mobileMenu.classList.remove('open');
-      });
-    });
-
-    /* ── Scroll reveal ── */
+    ham.addEventListener('click', () => { mobileMenu.style.display = mobileMenu.style.display === 'flex' ? 'none' : 'flex'; });
+    
+    /* Scroll Reveal */
     const revealEls = document.querySelectorAll('.reveal');
     const revealObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          revealObs.unobserve(e.target);
-        }
-      });
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
     }, { threshold: 0.1 });
     revealEls.forEach(el => revealObs.observe(el));
 
-    /* ── Filtros de miniaturas ── */
+    /* Filtros */
     const filterBtns = document.querySelectorAll('.filter-btn');
     const thumbItems = document.querySelectorAll('.thumb-item');
-
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const filter = btn.dataset.filter;
-        thumbItems.forEach(item => {
-          const show = filter === 'all' || item.dataset.cat === filter;
-          item.style.display = show ? '' : 'none';
-        });
+        thumbItems.forEach(item => { item.style.display = (filter === 'all' || item.dataset.cat === filter) ? '' : 'none'; });
       });
     });
 
-    /* ── Lightbox ── */
+    /* Lightbox Galería */
     const lightbox = document.getElementById('lightbox');
-    const lbImg    = document.getElementById('lightbox-img');
-    const lbClose  = document.getElementById('lightbox-close');
-
-    thumbItems.forEach(item => {
+    const lbImg = document.getElementById('lightbox-img');
+    document.querySelectorAll('.thumb-item').forEach(item => {
       item.addEventListener('click', () => {
-        const img = item.querySelector('img');
-        if (!img || !img.src || img.src.includes('tu-imagen')) return; 
-        lbImg.src = img.src;
-        lbImg.alt = img.alt;
+        lbImg.src = item.querySelector('img').src;
         lightbox.classList.add('open');
         document.body.style.overflow = 'hidden';
       });
     });
+    const closeLb = () => { lightbox.classList.remove('open'); document.body.style.overflow = ''; };
+    document.getElementById('lightbox-close').addEventListener('click', closeLb);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLb(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
 
-    lbClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', e => {
-      if (e.target === lightbox) closeLightbox();
-    });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeLightbox();
-    });
-
-    function closeLightbox() {
-      lightbox.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    /* ── Formulario simulado ── */
-    const form    = document.getElementById('contact-form');
-    const success = document.getElementById('form-success');
-
+    /* Form Simulado */
+    const form = document.getElementById('contact-form');
     form.addEventListener('submit', e => {
       e.preventDefault();
-      const nombre = form.nombre.value.trim();
-      const email  = form.email.value.trim();
-      if (!nombre || !email) return;
-      form.style.display = 'none';
-      success.style.display = 'block';
+      if(form.nombre.value && form.email.value) {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      }
     });
   </script>
+</body>
+</html>
 </body>
 </html>
