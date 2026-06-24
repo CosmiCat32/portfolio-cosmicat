@@ -1,32 +1,314 @@
-<div class="work-thumb">
-            <img src="maxresdefault (2).jpg" alt="Proyecto 3">
-            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
-          </div>
-          <div class="work-body">
-            <p class="work-type">video para canal en ingles</p>
-            <h3 class="work-title">Season 26 CHANGES EVERYTHING – League of Legends Explained</h3>
-            <p class="work-desc">edicion explicativa y dinamica.</p>
-          </div>
-        </a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cosmiCat | Portafolio de Edición de Video</title>
+  <style>
+    :root {
+      --bg-color: #0b0c10;
+      --card-bg: #1f2833;
+      --accent-color: #45f3ff;
+      --text-color: #c5c6c7;
+      --text-light: #ffffff;
+      --accent-purple: #7c4dff;
+    }
 
-        <a href="https://youtu.be/5QWwOwpC6YM?si=hGC-ShKwkqOUb9UQ" target="_blank" rel="noopener" class="work-card reveal">
-          <div class="work-thumb">
-            <img src="HKaWl8ZXoAAxJXJ.jpg" alt="Proyecto 4">
-            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
-          </div>
-          <div class="work-body">
-            <p class="work-type">Miniatura reciente</p>
-            <h3 class="work-title">iSpyWithMyLittleEye - EASY DEMON 100% BY VOXYCAT</h3>
-            <p class="work-desc">Diseño estratégico enfocado en aumentar el CTR en canal Nuevo.</p>
-          </div>
-        </a>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        <a href="https://youtu.be/BTUhHWZ8oYM?si=8jaPDkUe40GObC2-" target="_blank" rel="noopener" class="work-card reveal">
-          <div class="work-thumb">
-            <img src="4f3aa1a0-9889-4775-a335-0fcbe87cddb6.png" alt="Proyecto 5">
-            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
-          </div>
-          <div class="work-body">
-            <p class="work-type">Edición de formato largo</p>
-            <h3 class="work-title">La GLORIOSA EVOLUCION del MONSTERVERSE</h3>
-            <p class="work-desc">Narrativa y ritmo cuidados para mantener estables las métricas del canal.</p>
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 8%;
+      background: rgba(11, 12, 16, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid #1f2833;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: var(--text-light);
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--accent-purple);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      color: var(--text-light);
+      margin-bottom: 15px;
+    }
+
+    .hero h1 span {
+      color: var(--accent-purple);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-color);
+    }
+
+    /* Filtros */
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 40px;
+      padding: 0 20px;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--card-bg);
+      color: var(--text-color);
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--accent-purple);
+      border-color: var(--accent-purple);
+      color: var(--text-light);
+    }
+
+    /* Seccion Portafolio */
+    .portfolio-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 80px 40px;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .work-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #2b3542;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .work-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(124, 77, 255, 0.15);
+    }
+
+    .work-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #111;
+      overflow: hidden;
+    }
+
+    .work-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .work-card:hover .work-thumb img {
+      transform: scale(1.03);
+    }
+
+    .work-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 12, 16, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .work-card:hover .work-overlay {
+      opacity: 1;
+    }
+
+    .overlay-tag {
+      background: var(--accent-purple);
+      color: var(--text-light);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .work-body {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .work-type {
+      color: var(--accent-purple);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .work-title {
+      font-size: 1.15rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .work-desc {
+      font-size: 0.95rem;
+      color: var(--text-color);
+    }
+
+    /* Contacto */
+    .contact {
+      background: var(--card-bg);
+      text-align: center;
+      padding: 60px 20px;
+      border-top: 1px solid #2b3542;
+    }
+
+    .contact h2 {
+      color: var(--text-light);
+      margin-bottom: 15px;
+    }
+
+    .contact p {
+      margin-bottom: 20px;
+    }
+
+    .contact-link {
+      color: var(--accent-purple);
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 0.9rem;
+      background: var(--bg-color);
+      color: #666;
+    }
+
+    /* Animacion simple reveal */
+    .reveal {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">cosmi<span>Cat</span></div>
+  </nav>
+
+  <header class="hero">
+    <h1>Hola, soy <span>cosmiCat</span></h1>
+    <p>Editor de video especializado en contenido dinámico, miniaturas estratégicas y retención de audiencia.</p>
+  </header>
+
+  <div class="filters">
+    <button class="filter-btn active">Todos los trabajos</button>
+  </div>
+
+  <main class="portfolio-container">
+    <div class="portfolio-grid">
+
+      <a href="https://youtu.be/5QWwOwpC6YM?si=hGC-ShKwkqOUb9UQ" target="_blank" rel="noopener" class="work-card reveal">
+        <div class="work-thumb">
+          <img src="maxresdefault (2).jpg" alt="League of Legends Explained">
+          <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+        </div>
+        <div class="work-body">
+          <p class="work-type">video para canal en ingles</p>
+          <h3 class="work-title">Season 26 CHANGES EVERYTHING – League of Legends Explained</h3>
+          <p class="work-desc">Edición explicativa y dinámica.</p>
+        </div>
+      </a>
+
+      <a href="https://youtu.be/5QWwOwpC6YM?si=hGC-ShKwkqOUb9UQ" target="_blank" rel="noopener" class="work-card reveal">
+        <div class="work-thumb">
+          <img src="HKaWl8ZXoAAxJXJ.jpg" alt="Geometry Dash Demon">
+          <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+        </div>
+        <div class="work-body">
+          <p class="work-type">Miniatura reciente</p>
+          <h3 class="work-title">iSpyWithMyLittleEye - EASY DEMON 100% BY VOXYCAT</h3>
+          <p class="work-desc">Diseño estratégico enfocado en aumentar el CTR en canal Nuevo.</p>
+        </div>
+      </a>
+
+      <a href="https://youtu.be/BTUhHWZ8oYM?si=8jaPDkUe40GObC2-" target="_blank" rel="noopener" class="work-card reveal">
+        <div class="work-thumb">
+          <img src="4f3aa1a0-9889-4775-a335-0fcbe87cddb6.png" alt="Evolución del Monsterverse">
+          <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+        </div>
+        <div class="work-body">
+          <p class="work-type">Edición de formato largo</p>
+          <h3 class="work-title">La GLORIOSA EVOLUCION del MONSTERVERSE</h3>
+          <p class="work-desc">Narrativa y ritmo cuidados para mantener estables las métricas del canal.</p>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <section class="contact">
+    <h2>¿Tienes un proyecto en mente?</h2>
+    <p>¡Hagamos que tus videos destaquen en el algoritmo!</p>
+    <p><a href="#" class="contact-link">Trabaja conmigo</a></p>
+  </section>
+
+  <footer>
+    <p>© 2026 cosmiCat. Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+</html>
