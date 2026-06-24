@@ -385,9 +385,10 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--muted);
+      z-index: 1;
     }
     .work-thumb .placeholder .icon { font-size: 28px; }
-    .work-thumb img { transition: transform 0.4s ease; }
+    .work-thumb img { position: relative; z-index: 2; transition: transform 0.4s ease; width: 100%; height: 100%; }
     .work-card:hover .work-thumb img { transform: scale(1.04); }
 
     .work-overlay {
@@ -399,6 +400,7 @@
       display: flex;
       align-items: flex-end;
       padding: 1rem;
+      z-index: 3;
     }
     .work-card:hover .work-overlay { opacity: 1; }
     .overlay-tag {
@@ -563,8 +565,10 @@
       text-transform: uppercase;
       color: var(--muted);
       gap: 6px;
+      z-index: 1;
     }
     .thumb-item .placeholder .icon { font-size: 24px; }
+    .thumb-item img { position: relative; z-index: 2; width: 100%; height: 100%; }
 
     /* lightbox simple */
     #lightbox {
@@ -864,41 +868,73 @@
 
       <div class="works-grid">
 
-        <a href="https://youtu.be/5QWwOwpC6YM?si=hGC-ShKwkqOUb9UQ" target="_blank" rel="noopener" class="work-card featured reveal">
+        <div class="work-card featured reveal">
           <div class="work-thumb">
-            <img src="maxresdefault (2).jpg" alt="League of Legends Explained">
-            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+            <img src="tu-imagen-lol.jpg" alt="Season 26 CHANGES EVERYTHING">
+            <div class="placeholder">
+              <span class="icon">🎬</span>
+              Miniatura LoL (16:9)
+            </div>
+            <div class="work-overlay"><span class="overlay-tag">Destacado</span></div>
           </div>
           <div class="work-body">
-            <p class="work-type">video para canal en ingles</p>
+            <p class="work-type">Video para canal en inglés</p>
             <h3 class="work-title">Season 26 CHANGES EVERYTHING – League of Legends Explained</h3>
-            <p class="work-desc">Edición explicativa y dinámica enfocada en la retención de audiencia.</p>
+            <p class="work-desc">Edición explicativa y dinámica.</p>
           </div>
-        </a>
+        </div>
 
-        <a href="https://youtu.be/5QWwOwpC6YM?si=hGC-ShKwkqOUb9UQ" target="_blank" rel="noopener" class="work-card reveal">
+        <div class="work-card reveal">
           <div class="work-thumb">
-            <img src="HKaWl8ZXoAAxJXJ.jpg" alt="Geometry Dash Demon">
-            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+            <img src="tu-imagen-voxycat.jpg" alt="iSpyWithMyLittleEye Thumbnail">
+            <div class="placeholder"><span class="icon">🖼️</span>Miniatura Geometry Dash</div>
+            <div class="work-overlay"><span class="overlay-tag">Thumbnail</span></div>
           </div>
           <div class="work-body">
             <p class="work-type">Miniatura reciente</p>
             <h3 class="work-title">iSpyWithMyLittleEye - EASY DEMON 100% BY VOXYCAT</h3>
             <p class="work-desc">Diseño estratégico enfocado en aumentar el CTR en canal nuevo.</p>
           </div>
-        </a>
+        </div>
 
-        <a href="https://youtu.be/BTUhHWZ8oYM?si=8jaPDkUe40GObC2-" target="_blank" rel="noopener" class="work-card reveal">
+        <div class="work-card reveal">
           <div class="work-thumb">
-            <img src="4f3aa1a0-9889-4775-a335-0fcbe87cddb6.png" alt="Evolución del Monsterverse">
-            <div class="work-overlay"><span class="overlay-tag">Ver Video ↗</span></div>
+            <img src="tu-imagen-monsterverse.jpg" alt="Monsterverse Video">
+            <div class="placeholder"><span class="icon">✂️</span>Miniatura Monsterverse</div>
+            <div class="work-overlay"><span class="overlay-tag">Edición</span></div>
           </div>
           <div class="work-body">
             <p class="work-type">Edición de formato largo</p>
             <h3 class="work-title">La GLORIOSA EVOLUCION del MONSTERVERSE</h3>
             <p class="work-desc">Narrativa y ritmo cuidados para mantener estables las métricas del canal.</p>
           </div>
-        </a>
+        </div>
+
+        <div class="work-card reveal">
+          <div class="work-thumb">
+            <img src="tu-imagen-pack.jpg" alt="Pack de miniaturas">
+            <div class="placeholder"><span class="icon">🖼️</span>Tu imagen (16:9)</div>
+            <div class="work-overlay"><span class="overlay-tag">Thumbnail</span></div>
+          </div>
+          <div class="work-body">
+            <p class="work-type">Thumbnail</p>
+            <h3 class="work-title">Serie de miniaturas — pack</h3>
+            <p class="work-desc">Identidad visual coherente para toda una serie de videos.</p>
+          </div>
+        </div>
+
+        <div class="work-card reveal">
+          <div class="work-thumb">
+            <img src="tu-imagen-larga.jpg" alt="Edición larga">
+            <div class="placeholder"><span class="icon">🎞️</span>Tu imagen (16:9)</div>
+            <div class="work-overlay"><span class="overlay-tag">Edición</span></div>
+          </div>
+          <div class="work-body">
+            <p class="work-type">Edición larga</p>
+            <h3 class="work-title">Video largo — nombre del canal</h3>
+            <p class="work-desc">Edición de video largo con intro, gráficos y corrección de color.</p>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -959,18 +995,22 @@
       <div class="thumbs-grid" id="thumbs-grid">
 
         <div class="thumb-item reveal" data-cat="gaming">
+          <img src="tu-imagen-lol.jpg" alt="Miniatura LoL">
           <div class="placeholder"><span class="icon">🖼️</span>Miniatura Gaming 1</div>
         </div>
 
         <div class="thumb-item reveal" data-cat="anime">
+          <img src="tu-imagen-anime.jpg" alt="Miniatura Anime">
           <div class="placeholder"><span class="icon">🖼️</span>Miniatura Anime 1</div>
         </div>
 
         <div class="thumb-item reveal" data-cat="entretenimiento">
+          <img src="tu-imagen-extra.jpg" alt="Miniatura Extra">
           <div class="placeholder"><span class="icon">🖼️</span>Miniatura Extra 1</div>
         </div>
 
         <div class="thumb-item reveal" data-cat="gaming">
+          <img src="tu-imagen-voxycat.jpg" alt="Miniatura Geometry Dash">
           <div class="placeholder"><span class="icon">🖼️</span>Miniatura Gaming 2</div>
         </div>
 
@@ -1037,7 +1077,6 @@
     </div>
   </footer>
 
-
   <script>
     /* ── Hamburger menu ── */
     const ham = document.getElementById('hamburger');
@@ -1073,47 +1112,54 @@
       btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
-        const filterValue = btn.getAttribute('data-filter');
-
+        const filter = btn.dataset.filter;
         thumbItems.forEach(item => {
-          const cat = item.getAttribute('data-cat');
-          if (filterValue === 'all' || cat === filterValue) {
-            item.style.display = 'block';
-          } else {
-            item.style.display = 'none';
-          }
+          const show = filter === 'all' || item.dataset.cat === filter;
+          item.style.display = show ? '' : 'none';
         });
       });
     });
 
-    /* ── Lightbox para ampliar miniaturas ── */
+    /* ── Lightbox ── */
     const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxClose = document.getElementById('lightbox-close');
+    const lbImg    = document.getElementById('lightbox-img');
+    const lbClose  = document.getElementById('lightbox-close');
 
     thumbItems.forEach(item => {
       item.addEventListener('click', () => {
         const img = item.querySelector('img');
-        if (img) {
-          lightboxImg.src = img.src;
-          lightboxImg.alt = img.alt;
-        } else {
-          lightboxImg.src = "";
-          lightboxImg.alt = item.textContent.trim();
-        }
+        if (!img || !img.src || img.src.includes('tu-imagen')) return; 
+        lbImg.src = img.src;
+        lbImg.alt = img.alt;
         lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
       });
     });
 
-    lightboxClose.addEventListener('click', () => {
-      lightbox.classList.remove('open');
+    lbClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
     });
 
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        lightbox.classList.remove('open');
-      }
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ── Formulario simulado ── */
+    const form    = document.getElementById('contact-form');
+    const success = document.getElementById('form-success');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const nombre = form.nombre.value.trim();
+      const email  = form.email.value.trim();
+      if (!nombre || !email) return;
+      form.style.display = 'none';
+      success.style.display = 'block';
     });
   </script>
 </body>
